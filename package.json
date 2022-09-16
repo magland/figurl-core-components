@@ -1,0 +1,41 @@
+{
+  "name": "@figurl/core-components",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [],
+  "author": "Jeremy Magland",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "^18.0.20",
+    "typescript": "^4.8.3"
+  },
+  "peerDependencies": {
+    "react": ">= 18.0.0"
+  },
+  "dependencies": {
+    "@figurl/core-utils": "magland/figurl-core-utils.git#0.1.0",
+    "@types/node": "^18.7.18",
+    "assert": "npm:assert-browserify",
+    "buffer": "npm:buffer-browserify",
+    "crypto": "npm:crypto-browserify",
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "mathjs": "^11.2.1",
+    "path": "npm:path-browserify",
+    "react-draggable": "^4.4.5",
+    "react-icons": "^4.4.0",
+    "react-visibility-sensor": "^5.1.1",
+    "stream": "npm:stream-browserify"
+  }
+}
