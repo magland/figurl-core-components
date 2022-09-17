@@ -23,7 +23,7 @@ const TestNiceTable: FunctionComponent<Props> = () => {
 	const rows: NiceTableRow[] = useMemo(() => {
 		return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(x => (
 			{
-				key: 'r1',
+				key: `r${x}`,
 				columnValues: {
 					c1: `r${x}c1`,
 					c2: `r${x}c2`,

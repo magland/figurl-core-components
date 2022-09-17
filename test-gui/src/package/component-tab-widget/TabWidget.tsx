@@ -34,17 +34,17 @@ const TabWidget: FunctionComponent<PropsWithChildren<Props>> = ({children, tabs,
                     onCurrentTabIndexChanged={setCurrentTabIndex}
                     onTabClosed={() => {}}
                 />
-                {
-                    children2.map((c, i) => {
-                        const visible = i === currentTabIndex
-                        return (
-                            <div key={`child-${i}`} style={{visibility: visible ? 'visible' : 'hidden', overflowY: 'hidden', overflowX: 'hidden', position: 'absolute', left: 0, top: tabBarHeight, width: W, height: H}}>
-                                <c.type {...c.props} width={W} height={H - tabBarHeight}/>
-                            </div>
-                        )
-                    })
-                }
             </div>
+            {
+                children2.map((c, i) => {
+                    const visible = i === currentTabIndex
+                    return (
+                        <div key={`child-${i}`} style={{visibility: visible ? 'visible' : 'hidden', overflowY: 'hidden', overflowX: 'hidden', position: 'absolute', left: 0, top: tabBarHeight, width: W, height: H}}>
+                            <c.type {...c.props} width={W} height={H - tabBarHeight}/>
+                        </div>
+                    )
+                })
+            }
         </div>
     )
 }
