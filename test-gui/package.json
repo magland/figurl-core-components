@@ -1,5 +1,5 @@
 {
-  "name": "figurl-core-components-gui",
+  "name": "figurl-core-views-gui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
