@@ -6,8 +6,8 @@ import MWViewContainer from './MWContainer';
 import MWViewLauncher from './MWViewLauncher';
 import { MWView, MWViewPlugin } from './MWViewPlugin';
 import MWViewWidget from './MWViewWidget';
-import MWCurationControl from './MWCurationControl';
-import { Splitter } from '@figurl/core-components';
+// import MWCurationControl from './MWCurationControl';
+import { Splitter } from '../component-splitter';
 import { ViewComponentProps } from '../core-view-component-props';
 
 type Props = {
@@ -67,13 +67,13 @@ const MountainWorkspace: FunctionComponent<Props> = ({width, height, viewPlugins
                 </Expandable>
 
                 {/* Curation */}
-                {
+                {/* {
                     !hideCurationControl && (
                         <Expandable icon={launchIcon} label="Curation" defaultExpanded={true} unmountOnExit={false}>
                             <MWCurationControl />
                         </Expandable>
                     )
-                }
+                } */}
 
                 {
                     controlViewPlugins.map(v => (

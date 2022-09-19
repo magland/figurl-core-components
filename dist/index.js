@@ -9,4 +9,5 @@ export * from './component-splitter';
 export * from './component-tab-widget';
 export * from './component-vertical-scroll-view';
 export * from './figurl-canvas';
+export * from './view-main-layout';
 //# sourceMappingURL=index.js.map

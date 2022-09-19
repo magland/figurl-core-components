@@ -1,5 +1,5 @@
 import { FunctionComponent, useMemo } from "react"
-import { TabWidget } from "@figurl/core-components"
+import { TabWidget } from ".."
 import LayoutItemView from "./LayoutItemView"
 import { LayoutItem, MLView } from "./MainLayoutViewData"
 import { ViewComponentProps } from "../core-view-component-props"

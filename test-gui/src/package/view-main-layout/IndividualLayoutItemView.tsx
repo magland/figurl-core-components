@@ -1,5 +1,5 @@
 import { useFileData } from "@figurl/interface";
-import { ProgressComponent } from "@figurl/core-components";
+import { ProgressComponent } from "../component-progress";
 import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import { LayoutItem, MLView } from "./MainLayoutViewData";
 import { ViewComponentProps } from "../core-view-component-props";
