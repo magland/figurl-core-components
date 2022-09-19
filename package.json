@@ -1,6 +1,6 @@
 {
   "name": "@figurl/core-components",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,8 @@
     "copy-files": "copyfiles -u 1 src/**/*.css dist/",
     "build": "rm -rf dist && tsc && yarn copy-files",
     "prepare": "npm run build",
-    "release": "yarn build && yarn pack && gh release create $npm_package_version figurl-core-components-v$npm_package_version.tgz"
+    "release-github": "yarn build && yarn pack && gh release create $npm_package_version figurl-core-components-v$npm_package_version.tgz",
+    "release": "yarn build && npm publish && git tag $npm_package_version && git push --tags"
   },
   "keywords": [],
   "author": "Jeremy Magland",
@@ -29,7 +30,7 @@
     "react": ">= 18.0.0"
   },
   "dependencies": {
-    "@figurl/core-utils": "https://github.com/magland/figurl-core-utils/releases/download/0.1.1/figurl-core-utils-v0.1.1.tgz",
+    "@figurl/core-utils": "^0.1",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@types/node": "^18.7.18",
