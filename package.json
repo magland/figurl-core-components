@@ -35,6 +35,7 @@
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@types/node": "^18.7.18",
+    "@types/react-syntax-highlighter": "^15.5.3",
     "assert": "npm:assert-browserify",
     "buffer": "npm:buffer-browserify",
     "crypto": "npm:crypto-browserify",
@@ -42,6 +43,8 @@
     "path": "npm:path-browserify",
     "react-draggable": "^4.4.5",
     "react-icons": "^4.4.0",
+    "react-markdown": "^4.3.1",
+    "react-syntax-highlighter": "^15.5.0",
     "react-visibility-sensor": "^5.1.1",
     "stream": "npm:stream-browserify"
   }
