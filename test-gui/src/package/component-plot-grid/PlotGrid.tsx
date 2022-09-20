@@ -1,6 +1,6 @@
 import { Grid } from '@material-ui/core';
 import React, { FunctionComponent, useMemo } from 'react';
-import ReactVisibilitySensor from 'react-visibility-sensor';
+import IfVisible from './IfVisible';
 
 export const voidClickHandler = (evt: React.MouseEvent) => {}
 
@@ -82,23 +82,18 @@ const PlotGrid: FunctionComponent<Props> = ({plots, plotComponent, selectedPlotK
                         data-key={p.key}
                         onClick={p.clickHandler || voidClickHandler}
                     >
-                        {
-                            p.label !== undefined && (
-                                <div className={'plotLabelStyle'} style={{maxWidth: p.props.width, height: labelHeight, userSelect: 'none'}}>
-                                    <span style={{color: p.labelColor}}>{p.label || <span>&nbsp;</span>}</span>
-                                </div>
-                            )
-                        }
-                        <ReactVisibilitySensor partialVisibility={true}>
-                            {({isVisible}: {isVisible: boolean}) => (
-                                isVisible && Component !== null ? (
-                                    <Component {...{...p.props, height: p.props.height ? p.props.height - labelHeight : p.props.height}} />
-                                ) : (
-                                    <div style={{position: 'relative', width: p.props.width, height: p.props.height - labelHeight}}>Not visible</div>
-                                )
-                            )}
-                        </ReactVisibilitySensor>
-                        
+                        <IfVisible width={p.props.width} height={p.props.height}>
+                            <span>
+                                {
+                                    p.label !== undefined && (
+                                        <div className={'plotLabelStyle'} style={{maxWidth: p.props.width, height: labelHeight, userSelect: 'none'}}>
+                                            <span style={{color: p.labelColor}}>{p.label || <span>&nbsp;</span>}</span>
+                                        </div>
+                                    )
+                                }
+                                <Component {...{...p.props, height: p.props.height ? p.props.height - labelHeight : p.props.height}} />
+                            </span>
+                        </IfVisible>
                     </div>
                     return {[p.key]: rendered}
             })
