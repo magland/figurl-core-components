@@ -1,14 +1,13 @@
-import OpenInBrowserIcon from '@material-ui/icons/OpenInBrowser';
-import Expandable from './components/Expandable/Expandable';
-import React, { FunctionComponent, useCallback, useReducer } from 'react';
-import openViewsReducer from './openViewsReducer';
+
+import { FunctionComponent, useCallback, useReducer } from 'react';
 import MWViewContainer from './MWContainer';
-import MWViewLauncher from './MWViewLauncher';
 import { MWView, MWViewPlugin } from './MWViewPlugin';
 import MWViewWidget from './MWViewWidget';
+import openViewsReducer from './openViewsReducer';
 // import MWCurationControl from './MWCurationControl';
 import { Splitter } from '../component-splitter';
 import { ViewComponentProps } from '../core-view-component-props';
+import MountainWorkspaceLeftPanel from './MountainWorkspaceLeftPanel';
 
 type Props = {
     viewPlugins: MWViewPlugin[]
@@ -24,8 +23,6 @@ const initialLeftPanelWidth = 320
 
 const MountainWorkspace: FunctionComponent<Props> = ({width, height, viewPlugins, ViewComponent, viewProps, hideCurationControl, controlViewPlugins}) => {
     const [openViews, openViewsDispatch] = useReducer(openViewsReducer, [])
-
-    const launchIcon = <span style={{color: 'gray'}}><OpenInBrowserIcon /></span>
     
     const handleLaunchView = useCallback((plugin: MWViewPlugin) => {
         openViewsDispatch({
@@ -57,35 +54,14 @@ const MountainWorkspace: FunctionComponent<Props> = ({width, height, viewPlugins
             height={height}
             initialPosition={initialLeftPanelWidth}
         >
-            <div>
-                {/* Launch */}
-                <Expandable icon={launchIcon} label="Open views" defaultExpanded={true} unmountOnExit={false}>
-                    <MWViewLauncher
-                        onLaunchView={handleLaunchView}
-                        plugins={viewPlugins}
-                    />
-                </Expandable>
-
-                {/* Curation */}
-                {/* {
-                    !hideCurationControl && (
-                        <Expandable icon={launchIcon} label="Curation" defaultExpanded={true} unmountOnExit={false}>
-                            <MWCurationControl />
-                        </Expandable>
-                    )
-                } */}
-
-                {
-                    controlViewPlugins.map(v => (
-                        <Expandable key={v.name} icon={launchIcon} label={v.label} defaultExpanded={true} unmountOnExit={false}>
-                            <MWViewWrapper
-                                viewPlugin={v}
-                                ViewComponent={ViewComponent}
-                            />
-                        </Expandable>
-                    ))
-                }
-            </div>
+            <MountainWorkspaceLeftPanel
+                onLaunchView={handleLaunchView}
+                viewPlugins={viewPlugins}
+                controlViewPlugins={controlViewPlugins}
+                ViewComponent={ViewComponent}
+                width={0}
+                height={0}
+            />
             <MWViewContainer
                 onViewClosed={handleViewClosed}
                 onSetViewArea={handleSetViewArea}
@@ -110,13 +86,14 @@ const MountainWorkspace: FunctionComponent<Props> = ({width, height, viewPlugins
 type WrapperProps = {
     viewPlugin: MWViewPlugin
     ViewComponent: FunctionComponent<ViewComponentProps>
+    width?: number
 }
 
-const MWViewWrapper: FunctionComponent<WrapperProps> = ({ viewPlugin }) => {
+export const MWViewWrapper: FunctionComponent<WrapperProps> = ({ viewPlugin, width }) => {
     const p = viewPlugin
     const Component = p.component
     return (
-        <Component {...(p.additionalProps || {})} />
+        <Component {...{width}} {...(p.additionalProps || {})} />
     )
 }
 

@@ -28,7 +28,7 @@ const MountainLayout2View: FunctionComponent<Props> = ({data, ViewComponent, hid
             label: view.label,
             component: ViewWrapper,
             singleton: true,
-            additionalProps: {figureDataSha1: view.figureDataSha1, figureDataUri: view.figureDataUri, ViewComponent}
+            additionalProps: {figureDataSha1: view.figureDataSha1, figureDataUri: view.figureDataUri, ViewComponent, height: view.controlHeight || 500}
         }))
     ), [data.controls, ViewComponent])
     const viewProps = useMemo(() => ({}), [])

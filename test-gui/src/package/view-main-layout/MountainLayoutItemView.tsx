@@ -37,7 +37,8 @@ const MountainLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewCompo
                     controls0.push({
                         label: properties.label,
                         type: V.type,
-                        figureDataUri: V.dataUri
+                        figureDataUri: V.dataUri,
+                        controlHeight: properties.controlHeight
                     })
                 }
             }

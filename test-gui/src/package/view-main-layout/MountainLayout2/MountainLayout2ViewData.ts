@@ -1,4 +1,4 @@
-import { validateObject } from "@figurl/core-utils"
+import { isNumber, validateObject } from "@figurl/core-utils"
 import { isArrayOf, isEqualTo, isString, optional } from "@figurl/core-utils"
 
 export type MLViewData = {
@@ -6,6 +6,7 @@ export type MLViewData = {
     type: string
     figureDataSha1?: string // old
     figureDataUri?: string // new
+    controlHeight?: number
 }
 
 const isMLViewData = (x: any): x is MLViewData => {
@@ -13,7 +14,8 @@ const isMLViewData = (x: any): x is MLViewData => {
         label: isString,
         type: isString,
         figureDataSha1: optional(isString), // old
-        figureDataUri: optional(isString) // new
+        figureDataUri: optional(isString), // new
+        controlHeight: optional(isNumber)
     }, {allowAdditionalFields: true})
 }
 
