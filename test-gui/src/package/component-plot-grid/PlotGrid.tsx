@@ -18,6 +18,7 @@ type Props = {
     plots: PGPlot[]
     plotComponent: React.FunctionComponent<any>
     selectedPlotKeys?: Set<number | string>
+    currentPlotKey?: number | string
     numPlotsPerRow?: number
 }
 
@@ -25,12 +26,13 @@ type PlotGridRowData = {
     rowStart: number,
     maxItems?: number,
     selectedPlotKeys?: Set<number | string>
+    currentPlotKey?: number | string
     hideBorderColorPlotKeys?: Set<number | string>
     plotIds: (number | string)[],
     plotsDict: {[key: number | string]: JSX.Element}
 }
 const PlotRow: FunctionComponent<PlotGridRowData> = (props: PlotGridRowData) => {
-    const { rowStart, maxItems, plotIds, selectedPlotKeys, plotsDict, hideBorderColorPlotKeys } = props
+    const { rowStart, maxItems, plotIds, selectedPlotKeys, currentPlotKey, plotsDict, hideBorderColorPlotKeys } = props
     const rowEnd = maxItems || plotIds.length
     const idsThisRow = plotIds.slice(rowStart, rowStart + rowEnd)
     return <Grid key={rowStart} container>
@@ -38,7 +40,7 @@ const PlotRow: FunctionComponent<PlotGridRowData> = (props: PlotGridRowData) => 
                 idsThisRow.filter(id => (plotsDict[id])).map(id => {
                     let className = `plotWrapperStyle`
                     if (!hideBorderColorPlotKeys?.has(id)) {
-                        className = className + ' ' + (selectedPlotKeys?.has(id) ? 'plotSelectedStyle' : 'plotUnselectedStyle')
+                        className = className + ' ' + (currentPlotKey === id ? 'plotCurrentStyle' : selectedPlotKeys?.has(id) ? 'plotSelectedStyle' : 'plotUnselectedStyle')
                     }
                     else {
                         className = className + ' plotUnselectableStyle'
@@ -55,7 +57,7 @@ const PlotRow: FunctionComponent<PlotGridRowData> = (props: PlotGridRowData) => 
         </Grid>
 }
 
-const PlotGrid: FunctionComponent<Props> = ({plots, plotComponent, selectedPlotKeys, numPlotsPerRow}) => {
+const PlotGrid: FunctionComponent<Props> = ({plots, plotComponent, selectedPlotKeys, currentPlotKey, numPlotsPerRow}) => {
     const Component = plotComponent
 
     const hideBorderColorPlotKeys = useMemo(() => {
@@ -116,6 +118,7 @@ const PlotGrid: FunctionComponent<Props> = ({plots, plotComponent, selectedPlotK
                         maxItems={numPlotsPerRow}
                         plotIds={plotIds}
                         selectedPlotKeys={selectedPlotKeys}
+                        currentPlotKey={currentPlotKey}
                         hideBorderColorPlotKeys={hideBorderColorPlotKeys}
                         plotsDict={_plotsDict}
                     />
