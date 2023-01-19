@@ -1,7 +1,6 @@
 import 'github-markdown-css'
 import React, { FunctionComponent } from 'react'
 import ReactMarkdown from "react-markdown"
-import MarkdownCodeBlock from "./MarkdownCodeBlock"
 
 export interface MarkdownProps {
     source: string
@@ -15,13 +14,19 @@ const Markdown: FunctionComponent<MarkdownProps> = ({ source, substitute, linkTa
     window.process = {
         cwd: () => ('')
     } as any
+
+    const MarkdownCodeBlock = React.lazy(() => import('./MarkdownCodeBlock'))
     
     const source2 = substitute ? doSubstitute(source, substitute) : source
     return (
         <div className='markdown-body'>
             <ReactMarkdown
                 source={source2}
-                renderers={{ code: MarkdownCodeBlock, ...renderers }}
+                renderers={renderers}
+
+                // Syntax react-syntax-highlighter makes the js bundle very large!
+                // renderers={{ code: MarkdownCodeBlock, ...renderers }}
+
                 linkTarget={linkTarget}
             />
         </div>

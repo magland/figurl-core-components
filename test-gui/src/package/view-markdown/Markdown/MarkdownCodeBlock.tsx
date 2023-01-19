@@ -1,6 +1,4 @@
-import React, { FunctionComponent } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { coy } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { FunctionComponent } from "react";
 
 interface Props {
   value: string
@@ -8,10 +6,11 @@ interface Props {
 }
 
 const MarkdownCodeBlock: FunctionComponent<Props> = ({value, language=undefined}) => {
+  // Syntax react-syntax-highlighter makes the js bundle very large!
   return (
-    <SyntaxHighlighter language={language} style={coy}>
-      {value}
-    </SyntaxHighlighter>
+    // <SyntaxHighlighter language={language} style={coy}>
+    <span>{value}</span>
+    // </SyntaxHighlighter>
   )
 }
 
