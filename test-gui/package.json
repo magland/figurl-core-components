@@ -1,6 +1,6 @@
 {
   "name": "figurl-core-views-gui",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@figurl/spike-sorting-views": "^0.1.15",
