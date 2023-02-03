@@ -161,14 +161,14 @@ const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent,
                         transform: 'rotate(-180deg)',
                     }
                     return (
-                        <div key={i} style={{position: 'absolute', left: p.left, top: p.top, width: p.width, height: p.height}}>
+                        <div className="BoxLayout" key={i} style={{position: 'absolute', left: p.left, top: p.top, width: p.width, height: p.height}}>
                             {
                                 showTitles ? (
                                     <span>
-                                        <div style={{position: 'absolute', textAlign: 'center', fontSize: titleFontSize, ...titleBox, ...titleRotationStyle}}>
+                                        <div style={{position: 'absolute', textAlign: 'center', fontSize: titleFontSize, ...titleBox, ...titleRotationStyle, overflow: 'hidden'}}>
                                             {p.title || ''}
                                         </div>
-                                        <div style={{position: 'absolute', ...itemBox}}>
+                                        <div style={{position: 'absolute', ...itemBox, overflow: 'hidden'}}>
                                             {itemView}
                                         </div>
                                     </span>

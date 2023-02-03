@@ -32,7 +32,7 @@ const IndividualLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewCom
 
     if (!figureData) {
         return (
-            <div style={{ width, height }}>
+            <div className="IndividualLayoutItemNoFigureData" style={{ width, height, overflow: 'hidden' }}>
                 {
                     errorMessage ? errorMessage : (
                         <ProgressComponent
