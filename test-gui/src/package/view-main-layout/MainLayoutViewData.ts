@@ -11,6 +11,7 @@ export type LayoutItem = {
         maxSize?: number
         stretch?: number
         title?: string
+        collapsible?: boolean
     }[]
     showTitles?: boolean
 } | {
@@ -55,7 +56,8 @@ export const isLayoutItem = (x: any): x is LayoutItem => {
                 minSize: optional(isNumber),
                 maxSize: optional(isNumber),
                 stretch: optional(isNumber),
-                title: optional(isString)
+                title: optional(isString),
+                collapsible: optional(isBoolean)
             }))))
         })),
         (y: any) => (validateObject(y, {

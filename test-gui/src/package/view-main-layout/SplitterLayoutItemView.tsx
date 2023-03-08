@@ -24,11 +24,11 @@ const SplitterLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewCompo
     const itemPositions: number[] = useMemo(() => {
         let itemSizes: number[]
         if (direction === 'horizontal') {
-            itemSizes = computeSizes(width, items.length, itemProperties || [])
+            itemSizes = computeSizes(width, items.length, itemProperties || [], [], direction)
         }
         else {
             // not used until vertical is implemented
-            itemSizes = computeSizes(height, items.length, itemProperties || [])
+            itemSizes = computeSizes(height, items.length, itemProperties || [], [], direction)
         }
         const ret: number[] = []
         let x = 0

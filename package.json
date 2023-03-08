@@ -1,6 +1,6 @@
 {
   "name": "@figurl/core-views",
-  "version": "0.1.16",
+  "version": "0.1.18",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,6 +38,7 @@
     "assert": "npm:assert-browserify",
     "buffer": "npm:buffer-browserify",
     "crypto": "npm:crypto-browserify",
+    "github-markdown-css": "^5.1.0",
     "mathjs": "^11.2.1",
     "path": "npm:path-browserify",
     "react-draggable": "^4.4.5",
@@ -45,7 +46,6 @@
     "react-markdown": "^4.3.1",
     "react-syntax-highlighter": "^15.5.0",
     "react-visibility-sensor": "^5.1.1",
-    "stream": "npm:stream-browserify",
-    "github-markdown-css": "^5.1.0"
+    "stream": "npm:stream-browserify"
   }
 }

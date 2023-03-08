@@ -1,5 +1,6 @@
+import { CropSquare, ExpandMore } from "@material-ui/icons"
+import React, { FunctionComponent, useMemo, useReducer } from "react"
 import { ViewComponentProps } from "../core-view-component-props"
-import React, { FunctionComponent, useMemo } from "react"
 import LayoutItemView from "./LayoutItemView"
 import { LayoutItem, MLView } from "./MainLayoutViewData"
 
@@ -16,40 +17,63 @@ type ItemPosition = {
     top: number,
     width: number,
     height: number,
-    title?: string
+    title?: string,
+    collapsible?: boolean
 }
+
+const menuBarHeight = 40
 
 export const computeSizes = (
     totalSize: number | undefined,  // undefined means we're using a scrollbar
     itemCount: number,
     itemProperties: {
-        minSize?: number, maxSize?: number, stretch?: number
-    }[]
+        minSize?: number, maxSize?: number, stretch?: number, collapsible?: boolean
+    }[],
+    collapsedItems: number[],
+    direction: 'horizontal' | 'vertical'
 ) => {
     while (itemProperties.length < itemCount) {
         itemProperties.push({})
     }
+    const adjustedItemProperties = itemProperties.map((x, i) => {
+        if (collapsedItems.includes(i)) {
+            return {...x, minSize: 0, maxSize: 0, stretch: 1}
+        }
+        else return x
+    }, [])
+
+    const effectiveMinSize = (x: {minSize?: number, maxSize?: number, stretch?: number, collapsible?: boolean}) => {
+        if (x.collapsible) return (x.minSize || 0) + menuBarHeight
+        else return x.minSize || 0
+    }
+
+    const effectiveMaxSize = (x: {minSize?: number, maxSize?: number, stretch?: number, collapsible?: boolean}) => {
+        if (x.maxSize === undefined) return undefined
+        if (x.collapsible) return x.maxSize + menuBarHeight
+        else return x.maxSize || 0
+    }
+
     let ret: number[] = []
     let remainingSize = totalSize || 0
-    for (let x of itemProperties) {
-        ret.push(x.minSize || 0)
-        remainingSize -= x.minSize || 0
+    for (let x of adjustedItemProperties) {
+        ret.push(effectiveMinSize(x) || 0)
+        remainingSize -= effectiveMinSize(x) || 0
     }
     if (totalSize !== undefined) {
         while (remainingSize > 1e-3) {
             let totalStretch = 0
-            for (let x of itemProperties) {
+            for (let x of adjustedItemProperties) {
                 totalStretch += x.stretch ? x.stretch : 1
             }
             if (totalStretch === 0) break
             const remainingSize0 = remainingSize
             let somethingChanged = false
-            for (let i = 0; i < itemProperties.length; i++) {
+            for (let i = 0; i < adjustedItemProperties.length; i++) {
                 const s = ret[i]
-                const str = itemProperties[i].stretch
-                let newS = s + remainingSize0 * (str ? str : 1) / totalStretch
-                if (itemProperties[i].maxSize !== undefined) {
-                    newS = Math.min(newS, itemProperties[i].maxSize || 0)
+                const str = adjustedItemProperties[i].stretch
+                let newS = s + remainingSize0 * (str ? str : 1) / (totalStretch || 1)
+                if (adjustedItemProperties[i].maxSize !== undefined) {
+                    newS = Math.min(newS, effectiveMaxSize(adjustedItemProperties[i]) || 0)
                 }
                 if (newS > s) {
                     ret[i] = newS
@@ -62,17 +86,50 @@ export const computeSizes = (
     }
     return ret
 }
-    
+
+type CollapsedItems = number[]
+
+type CollapsedItemsAction = {
+    type: 'collapse'
+    index: number
+} | {
+    type: 'expand'
+    index: number
+} | {
+    type: 'toggle'
+    index: number
+}
+
+const collapsedItemsReducer = (state: CollapsedItems, action: CollapsedItemsAction) => {
+    if (action.type === 'collapse') {
+        return state.includes(action.index) ? state : [...state, action.index].sort()
+    }
+    else if (action.type === 'expand') {
+        return state.filter(a => (a !== action.index))
+    }
+    else if (action.type === 'toggle') {
+        return state.includes(action.index) ? state.filter(a => (a !== action.index)) : [...state, action.index].sort()
+    }
+    else return state
+}
 
 const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent, views, width, height}) => {
     if (layoutItem.type !== 'Box') {
         throw Error('Unexpected')
     }
+
+    // for testing collapsible
+    // for (let x of (layoutItem.itemProperties || [])) {
+    //     x.collapsible = true
+    // }
+
+    const [collapsedItems, collapsedItemsDispatch] = useReducer(collapsedItemsReducer, [])
+
     const {direction, scrollbar, items, itemProperties, showTitles} = layoutItem
     const itemPositions: ItemPosition[] = useMemo(() => {
         if (direction === 'horizontal') {
             const ret: ItemPosition[] = []
-            const itemWidths = computeSizes(!scrollbar ? width : undefined, items.length, itemProperties || [])
+            const itemWidths = computeSizes(!scrollbar ? width : undefined, items.length, itemProperties || [], collapsedItems, direction)
             let x = 0
             for (let i=0; i<items.length; i++) {
                 ret.push({
@@ -88,7 +145,7 @@ const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent,
         }
         else {
             const ret: ItemPosition[] = []
-            const itemHeights = computeSizes(!scrollbar ? height : undefined, items.length, itemProperties || [])
+            const itemHeights = computeSizes(!scrollbar ? height : undefined, items.length, itemProperties || [], collapsedItems, direction)
             let y = 0
             for (let i=0; i<items.length; i++) {
                 ret.push({
@@ -96,13 +153,14 @@ const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent,
                     top: y,
                     width,
                     height: itemHeights[i],
-                    title: (itemProperties || [])[i]?.title
+                    title: (itemProperties || [])[i]?.title,
+                    collapsible: (itemProperties || [])[i]?.collapsible
                 })
                 y += itemHeights[i]
             }
             return ret
         }
-    }, [direction, items, width, height, itemProperties, scrollbar])
+    }, [direction, items, width, height, itemProperties, scrollbar, collapsedItems])
 
     const divStyle: React.CSSProperties = useMemo(() => {
         const ret: React.CSSProperties = {
@@ -137,14 +195,19 @@ const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent,
                     const p = itemPositions[i]
                     let titleBox = {left: 0, top: 0, width: 0, height: 0}
                     let itemBox = {left: 0, top: 0, width: p.width, height: p.height}
-                    if (showTitles) {
+                    let menuBox = {left: 0, top: 0, width: 0, height: 0}
+                    if ((p.collapsible) && (direction === 'vertical')) {
+                        menuBox = {left: titleDim, top: 0, width: p.width - titleDim, height: menuBarHeight}
+                        itemBox = {left: 0, top: menuBarHeight, width: p.width, height: p.height - menuBarHeight}
+                    }
+                    if ((!collapsedItems.includes(i)) && (showTitles)) {
                         if (direction === 'horizontal') {
                             titleBox = {left: 0, top: 0, width: p.width, height: titleDim}
                             itemBox = {left: 0, top: titleDim, width: p.width, height: p.height - titleDim}
                         }
                         else if (direction === 'vertical') {
                             titleBox = {left: 0, top: 0, width: titleDim, height: p.height}
-                            itemBox = {left: titleDim, top: 0, width: p.width - titleDim, height: p.height}
+                            itemBox = {left: titleDim, top: p.collapsible ? menuBarHeight : 0, width: p.width - titleDim, height: p.collapsible ? p.height - menuBarHeight : p.height}
                         }
                     }
                     const itemView = (
@@ -162,20 +225,20 @@ const BoxLayoutItemView: FunctionComponent<Props> = ({layoutItem, ViewComponent,
                     }
                     return (
                         <div className="BoxLayout" key={i} style={{position: 'absolute', left: p.left, top: p.top, width: p.width, height: p.height}}>
-                            {
-                                showTitles ? (
-                                    <span>
-                                        <div style={{position: 'absolute', textAlign: 'center', fontSize: titleFontSize, ...titleBox, ...titleRotationStyle, overflow: 'hidden'}}>
-                                            {p.title || ''}
-                                        </div>
-                                        <div style={{position: 'absolute', ...itemBox, overflow: 'hidden'}}>
-                                            {itemView}
-                                        </div>
-                                    </span>
-                                ) : (
-                                    itemView
-                                )
-                            }
+                            <div style={{position: 'absolute', textAlign: 'center', fontSize: titleFontSize, ...titleBox, ...titleRotationStyle, overflow: 'hidden'}}>
+                                {p.title || ''}
+                            </div>
+                            <div style={{position: 'absolute', ...menuBox, overflow: 'hidden', float: 'right', display: 'flex'}}>
+                                <div style={{position: 'absolute', right: 0}} onClick={() => {collapsedItemsDispatch({type: 'toggle', index: i})}}>
+                                    {
+                                        collapsedItems.includes(i) ? <CropSquare /> : <ExpandMore />
+                                    }
+                                    
+                                </div>
+                            </div>
+                            <div style={{position: 'absolute', ...itemBox, overflow: 'hidden'}}>
+                                {itemView}
+                            </div>
                         </div>
                     )
                 })
