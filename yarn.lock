@@ -22,10 +22,10 @@
     chroma-js "^2.4.2"
     object-hash "^3.0.0"
 
-"@figurl/interface@^0.1":
-  version "0.1.20"
-  resolved "https://registry.yarnpkg.com/@figurl/interface/-/interface-0.1.20.tgz#66e2db30bcc407947b6bd2e754a4fa84770894a7"
-  integrity sha512-b87Cktj6f320lrcpdlI9n5ATYYnU3XOEBFEF7OqoXw4JzHlnyP+5aOEToFGVUWxZbz2hkoUrUaqaVG7A6Nd1Vg==
+"@figurl/interface@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@figurl/interface/-/interface-0.2.2.tgz#c77a26c8df9600e14af49c8ea2d657cba8170855"
+  integrity sha512-4YUptw7Z42llwzk5Unmoqa4u/gFoFGkXab18vi7B/5Cp/xmY55QAqQcxDzSoK6eKe4fFnoOXyzrClHldr1iG/A==
   dependencies:
     "@figurl/core-utils" "^0.1"
     "@types/node" "^18.7.18"
@@ -114,9 +114,9 @@
     "@types/unist" "*"
 
 "@types/node@^18.7.18":
-  version "18.14.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.14.6.tgz#ae1973dd2b1eeb1825695bb11ebfb746d27e3e93"
-  integrity sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==
+  version "18.15.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.15.3.tgz#f0b991c32cfc6a4e7f3399d6cb4b8cf9a0315014"
+  integrity sha512-p6ua9zBxz5otCmbpb5D3U4B5Nanw6Pk3PPyX05xnxbB/fRv71N7CPmORg7uAD5P70T0xmx1pzAx/FUfa5X+3cw==
 
 "@types/prop-types@*":
   version "15.7.5"
@@ -979,9 +979,9 @@ markdown-escapes@^1.0.0:
   integrity sha512-8z4efJYk43E0upd0NbVXwgSTQs6cT3T06etieCMEg7dRbzCbxUCK/GHlX8mhHRDcp+OLlHkPKsvqQTCvsRl2cg==
 
 mathjs@^11.2.1:
-  version "11.6.0"
-  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.6.0.tgz#8da3ca262aa708a6d763947e1decf83f0c4c226d"
-  integrity sha512-6AAhoVvmCJSozTW+pc3XAwe9pLlAO5fYHnrHv4XWb0NQxjdz0DRnT3qneOPkKH6raTnlvHuX3XGLv8BmgXfiEg==
+  version "11.7.0"
+  resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.7.0.tgz#a197e82c760c57744b20324a8c4eed677bddf179"
+  integrity sha512-RCXtrP5xGIbl9PUc5+7QL81rBCUjzoIZ0ugNqKsarOUxg+x7deY0BzfNai+bGfUL/T+1uYq1xs5w2xVdL3lp0g==
   dependencies:
     "@babel/runtime" "^7.21.0"
     complex.js "^2.1.1"
@@ -1262,9 +1262,9 @@ react-visibility-sensor@^5.1.1:
     prop-types "^15.7.2"
 
 readable-stream@^3.5.0, readable-stream@^3.6.0:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.1.tgz#f9f9b5f536920253b3d26e7660e7da4ccff9bb62"
-  integrity sha512-+rQmrWMYGA90yenhTYsLWAsLsqVC8osOw6PKE1HDYiO0gdPeKe/xDHNzIAIn4C91YQ6oenEhfYqqc1883qHbjQ==
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.6.2.tgz#56a9b36ea965c00c5a93ef31eb111a0f11056967"
+  integrity sha512-9u/sniCrY3D5WdsERHzHE4G2YCXqoG5FTHUiCC4SIbr6XcLZBY05ya9EKjYek9O5xOAwjGq+1JdGBAS7Q9ScoA==
   dependencies:
     inherits "^2.0.3"
     string_decoder "^1.1.1"
